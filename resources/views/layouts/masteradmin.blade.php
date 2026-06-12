@@ -705,6 +705,7 @@
                             </li>
 
                             <!-- ================== NAVBAR NOTIFIKASI ================== -->
+                            {{-- Commented out to detach dependency on notifikasis table
                             @if(auth()->user()->role !== 'administrator')
                                 <li class="nav-item mx-1">
                                     <a class="nav-link position-relative notif-bell" href="{{ route('notifikasi.index') }}">
@@ -717,6 +718,7 @@
                                     </a>
                                 </li>
                             @endif
+                            --}}
 
                             <!-- ================== NAVBAR PESAN MASUK (ADMIN) ================== -->
                             @if(auth()->user()->role === 'administrator')

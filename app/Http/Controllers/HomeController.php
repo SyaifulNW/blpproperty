@@ -32,14 +32,8 @@ class HomeController extends Controller
         $csName = auth()->user()->name;
 
         // ====================== 🔔 NOTIFIKASI ======================
-        $notifikasi = Notifikasi::where('user_id', $csId)
-            ->orderBy('created_at', 'desc')
-            ->limit(10)
-            ->get();
-
-        $notifCount = Notifikasi::where('user_id', $csId)
-            ->where('is_read', false)
-            ->count();
+        $notifikasi = collect();
+        $notifCount = 0;
 
         // ====================== 💰 OMSET & KOMISI ======================
         $isCsSmi = auth()->user()->role === 'cs-smi';

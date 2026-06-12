@@ -50,9 +50,7 @@ public function show($id, Request $request)
     $kelas = Kelas::all();
 
     // ✅ 7. Ambil komentar / notifikasi untuk CS tersebut
-    $komentar = Notifikasi::where('user_id', $csId)
-        ->latest()
-        ->get();
+    $komentar = collect();
 
     // ✅ 8. Kirim semua data ke view
     return view('admin.database.database', [
@@ -76,11 +74,12 @@ public function kirimKomentar(Request $request)
         'pesan'   => 'required|string|max:255',
     ]);
 
-    Notifikasi::create([
-        'user_id'   => $request->user_id,
-        'sender_id' => auth()->id(), // 👈 Tambahkan sender_id
-        'pesan'     => $request->pesan,
-    ]);
+    // Commented out to detach dependency on notifikasis table
+    // Notifikasi::create([
+    //     'user_id'   => $request->user_id,
+    //     'sender_id' => auth()->id(), // 👈 Tambahkan sender_id
+    //     'pesan'     => $request->pesan,
+    // ]);
 
     // Redirect back dengan flash message
     return redirect()->back()->with('success', 'Komentar berhasil dikirim!');

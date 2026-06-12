@@ -341,10 +341,10 @@ Route::post('/koordinasi/komentar', [KoordinasiController::class, 'kirimKomentar
 // routes/web.php notifikasi
 
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/notifikasi', [NotifikasiController::class, 'index'])->name('notifikasi.index');
-    Route::get('/notifikasi/{id}', [NotifikasiController::class, 'show'])->name('notifikasi.show');
-});
+// Route::middleware(['auth'])->group(function () {
+//     Route::get('/notifikasi', [NotifikasiController::class, 'index'])->name('notifikasi.index');
+//     Route::get('/notifikasi/{id}', [NotifikasiController::class, 'show'])->name('notifikasi.show');
+// });
 
 // Hanya untuk administrator
 
