@@ -221,10 +221,10 @@
             $namaBulan = $bulanParse->translatedFormat('F');
             $tahun = $bulanParse->year;
 
-            use App\Models\Kelas;
+            use App\Models\Produk;
 
 
-            $jadwalKelas = Kelas::whereYear('tanggal_mulai', $tahun)
+            $jadwalKelas = Produk::whereYear('tanggal_mulai', $tahun)
                 ->whereMonth('tanggal_mulai', $bulanParse->month)
                 ->pluck('tanggal_mulai', 'nama_kelas')
                 ->toArray();
