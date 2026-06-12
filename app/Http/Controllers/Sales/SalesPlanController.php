@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Sales;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\SalesPlan;
-use App\Models\Kelas;
+use App\Models\Produk;
 use App\Models\User;
 use App\Models\Data;
 use Rap2hpoutre\FastExcel\FastExcel;
@@ -56,7 +56,7 @@ class SalesPlanController extends Controller
         $perPage = $request->get('per_page', 100);
 
         // Dropdown data
-        $kelasList = Kelas::all();
+        $kelasList = Produk::all();
         $csList = User::orderBy('name', 'asc')->get();
 
         // Filter CS List for Admin Dropdown (Specific Request)
@@ -127,10 +127,10 @@ class SalesPlanController extends Controller
             ->when(!$kelasFilter, function ($query) {
                 // Jika "Semua Produk", gabungkan baris berdasarkan data_id
                 $aggregated = \DB::table('salesplans')
-                    ->join('kelas', 'salesplans.kelas_id', '=', 'kelas.id')
+                    ->join('produk', 'salesplans.kelas_id', '=', 'produk.id')
                     ->select('data_id', 
                         \DB::raw('SUM(nominal) as total_nominal_aggregated'),
-                        \DB::raw('GROUP_CONCAT(kelas.nama_kelas SEPARATOR ", ") as all_kelas_names')
+                        \DB::raw('GROUP_CONCAT(produk.nama_kelas SEPARATOR ", ") as all_kelas_names')
                     )
                     ->whereNull('salesplans.deleted_at')
                     ->groupBy('data_id');
@@ -271,7 +271,7 @@ class SalesPlanController extends Controller
     {
         $q = $request->input('q');
 
-        $kelasList = Kelas::all();
+        $kelasList = Produk::all();
 
         $salesplans = SalesPlan::with(['kelas', 'data'])
             ->where('nama', 'like', "%$q%")
@@ -409,7 +409,7 @@ class SalesPlanController extends Controller
             ->orderBy('updated_at', 'desc')
             ->paginate(100);
 
-        $kelasList = Kelas::all();
+        $kelasList = Produk::all();
         $csList = User::where('role', 'sales')
             ->orWhereIn('name', ['Yasmin', 'Linda', 'Arifa', 'Putri', 'Puput', 'Gunawan', 'Fitra Jaya Saleh', 'Agus Setyo'])
             ->orderBy('name', 'asc')

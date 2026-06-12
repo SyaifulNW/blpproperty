@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Sales;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\HistoryPenjualan;
-use App\Models\Kelas;
+use App\Models\Produk;
 
 class HistoryPenjualanController extends Controller
 {
@@ -18,7 +18,7 @@ class HistoryPenjualanController extends Controller
     {
         if ($request->ajax() || $request->wantsJson()) {
             $validator = \Validator::make($request->all(), [
-                'kelas_id' => 'required|exists:kelas,id',
+                'kelas_id' => 'required|exists:produk,id',
                 'bulan' => 'required|integer|min:1|max:12',
                 'tahun' => 'required|integer|min:2000|max:2100',
                 'omset' => 'required|numeric|min:0',
@@ -43,7 +43,7 @@ class HistoryPenjualanController extends Controller
                     'keterangan' => $request->keterangan
                 ]);
                 
-                $kelas = Kelas::find($kelasId);
+                $kelas = Produk::find($kelasId);
 
                 return response()->json([
                     'success' => true,
@@ -71,7 +71,7 @@ class HistoryPenjualanController extends Controller
                 'keterangan' => $request->keterangan,
             ]);
             
-            $kelas = Kelas::find($kelasId);
+            $kelas = Produk::find($kelasId);
 
             return response()->json([
                 'success' => true,
@@ -91,7 +91,7 @@ class HistoryPenjualanController extends Controller
         }
 
         $request->validate([
-            'kelas_id' => 'required|exists:kelas,id',
+            'kelas_id' => 'required|exists:produk,id',
             'bulan' => 'required|integer|min:1|max:12',
             'tahun' => 'required|integer|min:2000|max:2100',
             'omset' => 'required|numeric|min:0',
@@ -124,7 +124,7 @@ class HistoryPenjualanController extends Controller
     {
         if ($request->ajax() || $request->wantsJson()) {
             $validator = \Validator::make($request->all(), [
-                'kelas_id' => 'required|exists:kelas,id',
+                'kelas_id' => 'required|exists:produk,id',
                 'bulan' => 'required|integer|min:1|max:12',
                 'tahun' => 'required|integer|min:2000|max:2100',
                 'omset' => 'required|numeric|min:0',
@@ -156,7 +156,7 @@ class HistoryPenjualanController extends Controller
                 'keterangan' => $request->keterangan,
             ]);
 
-            $kelas = Kelas::find($request->kelas_id);
+            $kelas = Produk::find($request->kelas_id);
 
             return response()->json([
                 'success' => true,
@@ -176,7 +176,7 @@ class HistoryPenjualanController extends Controller
         }
 
         $request->validate([
-            'kelas_id' => 'required|exists:kelas,id',
+            'kelas_id' => 'required|exists:produk,id',
             'bulan' => 'required|integer|min:1|max:12',
             'tahun' => 'required|integer|min:2000|max:2100',
             'omset' => 'required|numeric|min:0',

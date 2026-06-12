@@ -290,7 +290,7 @@
     {{-- Modal Tambah Kelas --}}
     <div class="modal fade" id="modalTambahKelas" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
-            <form method="POST" action="{{ route('admin.kelas.store') }}">
+            <form method="POST" action="{{ route('admin.produk.store') }}">
                 @csrf
                 <div class="modal-content">
                     <div class="modal-header bg-primary text-white">
@@ -444,7 +444,7 @@
                 const id = this.dataset.id;
                 document.getElementById('edit_nama_kelas').value = this.dataset.nama;
                 document.getElementById('edit_deskripsi').value = this.dataset.deskripsi;
-                document.getElementById('formEditKelas').action = `/admin/kelas/${id}`;
+                document.getElementById('formEditKelas').action = `/admin/produk/${id}`;
             });
         });
     </script>

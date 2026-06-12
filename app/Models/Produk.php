@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Kelas extends Model
+class Produk extends Model
 {
     use HasFactory;
-    protected $table = 'kelas'; // Nama tabel
+    protected $table = 'produk'; // Nama tabel
     protected $fillable = ['nama_kelas', 'deskripsi']; // Kolom yang dapat diisi secara massal
 
     /**
@@ -20,6 +20,6 @@ class Kelas extends Model
     }
     public function salesplans()
     {
-        return $this->hasMany(SalesPlan::class);
+        return $this->hasMany(SalesPlan::class, 'kelas_id');
     }
 }

@@ -14,7 +14,7 @@ use App\Http\Controllers\Administrator\PenilaianCsController;
 use App\Http\Controllers\Administrator\PenilaianController;
 use App\Http\Controllers\Administrator\AdminController;
 use App\Http\Controllers\Administrator\DashboardController;
-use App\Http\Controllers\Administrator\KelasController;
+use App\Http\Controllers\Administrator\ProdukController;
 use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\Administrator\AdminActivityController;
 use App\Http\Controllers\MessageController;
@@ -312,10 +312,10 @@ Route::middleware(['auth', 'role:administrator'])->group(function () {
 
 
 Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('/kelas', [KelasController::class, 'index'])->name('kelas.index');
-    Route::post('/kelas', [KelasController::class, 'store'])->name('kelas.store');
-    Route::put('/kelas/{id}', [KelasController::class, 'update'])->name('kelas.update');
-    Route::delete('/kelas/{id}', [KelasController::class, 'destroy'])->name('kelas.destroy');
+    Route::get('/produk', [ProdukController::class, 'index'])->name('produk.index');
+    Route::post('/produk', [ProdukController::class, 'store'])->name('produk.store');
+    Route::put('/produk/{id}', [ProdukController::class, 'update'])->name('produk.update');
+    Route::delete('/produk/{id}', [ProdukController::class, 'destroy'])->name('produk.destroy');
 });
 
 

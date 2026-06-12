@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Sales;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Kelas; // Ensure you import the Kelas model
+use App\Models\Produk; // Ensure you import the Produk model
 use App\Models\Data;
 use App\Models\Alumni; // Ensure you import the Alumni model
 use App\Models\SalesPlan; // Ensure you import the Salesplan model
@@ -30,7 +30,7 @@ class DataController extends Controller
             $newData->created_by_role = $user->role;
             $newData->save();
 
-            $kelas = Kelas::select('id', 'nama_kelas')->orderBy('nama_kelas')->get();
+            $kelas = Produk::select('id', 'nama_kelas')->orderBy('nama_kelas')->get();
             $leadSources = \App\Models\LeadSource::orderBy('name')->get();
 
             // Gunakan view partial yang sama dengan loop utama untuk konsistensi
@@ -136,7 +136,7 @@ class DataController extends Controller
         $kurang = max($target - $databaseBaru, 0);
 
         $data = $query->paginate($perPage);
-        $kelas = \App\Models\Kelas::select('id', 'nama_kelas')->orderBy('nama_kelas')->get();
+        $kelas = \App\Models\Produk::select('id', 'nama_kelas')->orderBy('nama_kelas')->get();
 
         // Fetch lists for filters
         $provinsiList = \App\Models\Data::select('provinsi_nama')
@@ -295,7 +295,7 @@ class DataController extends Controller
     {
         // Fetch the data by ID
         $data = data::findOrFail($id);
-        $kelas = Kelas::all(); // Fetch all classes for the sidebar
+        $kelas = Produk::all(); // Fetch all classes for the sidebar
         // Return a view to show the data
         return view('sales.database.show', compact('data', 'kelas'));
     }
@@ -303,7 +303,7 @@ class DataController extends Controller
     public function edit($id)
     {
         $data = Data::findOrFail($id);
-        $kelas = Kelas::orderBy('nama_kelas')->get();
+        $kelas = Produk::orderBy('nama_kelas')->get();
         $leadSources = \App\Models\LeadSource::orderBy('name')->get();
 
         return view('sales.database.edit', compact('data', 'kelas', 'leadSources'));
@@ -379,26 +379,26 @@ class DataController extends Controller
     {
         // Jika Administrator atau Fitra Jaya Saleh: tampil semua
         if (strtolower($user->role) == 'administrator' || $user->name == 'Fitra Jaya Saleh') {
-            return Kelas::all();
+            return Produk::all();
         }
 
         // Jika Tursia atau Latifah â†’ hanya Start-Up Muda Indonesia
         if (in_array($user->name, ['Tursia', 'Latifah'])) {
-            return Kelas::where('nama_kelas', 'Start-Up Muda Indonesia')->get();
+            return Produk::where('nama_kelas', 'Start-Up Muda Indonesia')->get();
         }
 
         // Jika Mutiah â†’ hanya Sekolah Kaya
         if ($user->name == 'Mutiah') {
-            return Kelas::where('nama_kelas', 'Sekolah Kaya')->get();
+            return Produk::where('nama_kelas', 'Sekolah Kaya')->get();
         }
 
         // Jika Shafa â†’ semua kecuali Start-Up Muda Indonesia
         if ($user->name == 'Shafa') {
-            return Kelas::where('nama_kelas', '!=', 'Start-Up Muda Indonesia')->get();
+            return Produk::where('nama_kelas', '!=', 'Start-Up Muda Indonesia')->get();
         }
 
         // Selain itu â†’ semua kecuali Sekolah Kaya dan Start-Up Muda Indonesia
-        return Kelas::whereNotIn('nama_kelas', ['Sekolah Kaya', 'Start-Up Muda Indonesia'])->get();
+        return Produk::whereNotIn('nama_kelas', ['Sekolah Kaya', 'Start-Up Muda Indonesia'])->get();
     }
 
     public function pindahkesalesplan(Request $request, $id)

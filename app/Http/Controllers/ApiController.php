@@ -56,7 +56,7 @@ class ApiController extends Controller
             // Cari kelas
             $kelasId = null;
             if ($jenisProduk) {
-                $kelas = DB::table('kelas')
+                $kelas = DB::table('produk')
                     ->where('nama_kelas', 'LIKE', '%' . $jenisProduk . '%')
                     ->first();
 

@@ -545,7 +545,7 @@
                     @if(\App\Models\Menu::isActive('jadwal_kelas') && auth()->user()->name !== 'Agus Setyo')
                         {{-- Jadwal Kelas --}}
                         <li class="nav-item">
-                            <a class="nav-link text-white" href="{{ route('admin.kelas.index') }}">
+                            <a class="nav-link text-white" href="{{ route('admin.produk.index') }}">
                                 <i class="fa-solid fa-home me-2"></i>
                                 <span>MANAJEMEN PRODUK</span>
                             </a>

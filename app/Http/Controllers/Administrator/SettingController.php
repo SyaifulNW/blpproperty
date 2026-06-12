@@ -24,7 +24,7 @@ class SettingController extends Controller
             return strtolower(trim($role));
         })->unique()->values();
 
-        $kelas = \App\Models\Kelas::orderByRaw('LOWER(nama_kelas) ASC')->get();
+        $kelas = \App\Models\Produk::orderByRaw('LOWER(nama_kelas) ASC')->get();
         $leadSources = \App\Models\LeadSource::orderBy('name')->get();
 
         return view('administrator.settings.index', compact(

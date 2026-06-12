@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\SalesPlan;
 use App\Models\Data;
-use App\Models\Kelas;
+use App\Models\Produk;
 use PDF;
 use Carbon\Carbon;
 
@@ -31,7 +31,7 @@ class PenilaianController extends Controller
         // 1. HITUNG OMSET REAL
         // ============================
         if ($user->role === 'cs-smi') {
-            $kelasOmset = Kelas::where('nama_kelas', 'like', '%Start-Up Muda Indonesia%')
+            $kelasOmset = Produk::where('nama_kelas', 'like', '%Start-Up Muda Indonesia%')
                 ->with(['salesplans' => function ($q) use ($csId, $tahun, $bulanNum) {
                     $q->where('created_by', $csId)
                       ->whereYear('updated_at', $tahun)
@@ -40,7 +40,7 @@ class PenilaianController extends Controller
                 }])
                 ->get();
         } else {
-            $kelasOmset = Kelas::whereYear('tanggal_mulai', $tahun)
+            $kelasOmset = Produk::whereYear('tanggal_mulai', $tahun)
                 ->whereMonth('tanggal_mulai', $bulanNum)
                 ->with(['salesplans' => function ($q) use ($csId, $tahun, $bulanNum) {
                     $q->where('created_by', $csId)
@@ -191,7 +191,7 @@ class PenilaianController extends Controller
     {
         // OMSET (40%)
         if ($role === 'cs-smi') {
-            $kelasOmset = Kelas::where('nama_kelas', 'like', '%Start-Up Muda Indonesia%')
+            $kelasOmset = Produk::where('nama_kelas', 'like', '%Start-Up Muda Indonesia%')
                 ->with(['salesplans' => function ($q) use ($csId, $tahun, $bulan) {
                     $q->where('created_by', $csId)
                       ->whereYear('updated_at', $tahun)
@@ -200,7 +200,7 @@ class PenilaianController extends Controller
                 }])
                 ->get();
         } else {
-            $kelasOmset = Kelas::whereYear('tanggal_mulai', $tahun)
+            $kelasOmset = Produk::whereYear('tanggal_mulai', $tahun)
                 ->whereMonth('tanggal_mulai', $bulan)
                 ->with(['salesplans' => function ($q) use ($csId, $tahun, $bulan) {
                     $q->where('created_by', $csId)
@@ -265,7 +265,7 @@ class PenilaianController extends Controller
         
         // 1. HITUNG OMSET
         if ($role === 'cs-smi') {
-            $kelasOmset = Kelas::where('nama_kelas', 'like', '%Start-Up Muda Indonesia%')
+            $kelasOmset = Produk::where('nama_kelas', 'like', '%Start-Up Muda Indonesia%')
                 ->with(['salesplans' => function ($q) use ($csId, $tahun, $bulan) {
                     $q->where('created_by', $csId)
                       ->whereYear('updated_at', $tahun)
@@ -274,7 +274,7 @@ class PenilaianController extends Controller
                 }])
                 ->get();
         } else {
-            $kelasOmset = Kelas::whereYear('tanggal_mulai', $tahun)
+            $kelasOmset = Produk::whereYear('tanggal_mulai', $tahun)
                 ->whereMonth('tanggal_mulai', $bulan)
                 ->with(['salesplans' => function ($q) use ($csId, $tahun, $bulan) {
                     $q->where('created_by', $csId)

@@ -3,24 +3,23 @@
 namespace App\Http\Controllers\Administrator;
 
 use App\Http\Controllers\Controller;
-use App\Models\Kelas;
+use App\Models\Produk;
 use Illuminate\Http\Request;
 
-class KelasController extends Controller
+class ProdukController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-public function index()
-{
-    // Urutkan berdasarkan nama kelas dari A ke Z
-    $kelas = \App\Models\Kelas::orderByRaw('LOWER(nama_kelas) ASC')->get();
+    public function index()
+    {
+        // Urutkan berdasarkan nama kelas dari A ke Z
+        $kelas = \App\Models\Produk::orderByRaw('LOWER(nama_kelas) ASC')->get();
 
-    return view('administrator.kelas.index', compact('kelas'));
-}
-
+        return view('administrator.produk.index', compact('kelas'));
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -45,9 +44,9 @@ public function index()
             'deskripsi' => 'nullable|string',
         ]);
 
-        Kelas::create($request->all());
+        Produk::create($request->all());
 
-        return redirect()->route('admin.kelas.index')->with('success', 'Kelas berhasil ditambahkan.');
+        return redirect()->route('admin.produk.index')->with('success', 'Produk berhasil ditambahkan.');
     }
 
     /**
@@ -86,11 +85,10 @@ public function index()
             'deskripsi' => 'nullable|string',
         ]);
 
-$kelas = Kelas::findOrFail($id);
-$kelas->update($request->all());
+        $kelas = Produk::findOrFail($id);
+        $kelas->update($request->all());
 
-return redirect()->route('admin.kelas.index')->with('success', 'Produk berhasil diupdate.');
-
+        return redirect()->route('admin.produk.index')->with('success', 'Produk berhasil diupdate.');
     }
 
     /**

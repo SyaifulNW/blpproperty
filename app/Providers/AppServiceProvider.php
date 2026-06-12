@@ -6,7 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\URL;
 
-use App\Models\Kelas; // Ensure you import the Kelas model
+use App\Models\Produk; // Ensure you import the Produk model
 
 
 class AppServiceProvider extends ServiceProvider
@@ -29,7 +29,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
          View::composer('*', function ($view) {
-        $view->with('kelas', \App\Models\Kelas::all());
+        $view->with('kelas', \App\Models\Produk::all());
     });
      if (config('app.env') === 'production') {
         URL::forceScheme('https');

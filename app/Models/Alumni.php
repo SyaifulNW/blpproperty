@@ -34,7 +34,7 @@ class Alumni extends Model
     ];
     public function kelas()
     {
-        return $this->belongsTo('App\Models\Kelas', 'kelas_id');
+        return $this->belongsTo('App\Models\Produk', 'kelas_id');
     }
 
     public function data()

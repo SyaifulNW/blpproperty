@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Sales;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Kelas;
+use App\Models\Produk;
 use App\Models\Data;
 use App\Models\LeadSource;
 use App\Models\User;
@@ -19,7 +19,7 @@ class FormLeadsController extends Controller
         $salesName = $request->query('sales');
         
         // Fetch all products (kelas) and lead sources
-        $products = Kelas::orderBy('nama_kelas')->get();
+        $products = Produk::orderBy('nama_kelas')->get();
         $leadSources = LeadSource::orderBy('name')->get();
 
         return view('public.form-leads', [
@@ -38,7 +38,7 @@ class FormLeadsController extends Controller
             'nama' => 'required|string|max:255',
             'no_wa' => 'required|string|max:50',
             'leads' => 'required|string|max:255',
-            'kelas_id' => 'required|exists:kelas,id',
+            'kelas_id' => 'required|exists:produk,id',
         ], [
             'nama.required' => 'Nama Lengkap wajib diisi.',
             'no_wa.required' => 'No Whatsapp wajib diisi.',

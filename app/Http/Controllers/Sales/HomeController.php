@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Sales;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Kelas;
+use App\Models\Produk;
 use App\Models\SalesPlan;
 use App\Models\Activity;
 use App\Models\DailyActiviti;
@@ -41,7 +41,7 @@ class HomeController extends Controller
         $isCsMbc = auth()->user()->role === 'cs-mbc';
 
         // Ambil SEMUA produk dari Kelas
-        $allProducts = Kelas::all();
+        $allProducts = Produk::all();
 
         if ($isCsSmi) {
             // Khusus CS SMI: Filter salesplans sesuai CS dan waktu
@@ -375,7 +375,7 @@ class HomeController extends Controller
     private function hitungTotalNilaiHasil($csId, $namaUserData, $bulan, $tahun, $role)
     {
         // OMSET - Ambil semua produk dan filter berdasarkan role (seperti di index)
-        $allProducts = \App\Models\Kelas::all();
+        $allProducts = \App\Models\Produk::all();
         if ($role === 'cs-smi') {
             $allProducts = $allProducts->filter(function ($q) {
                 return \Illuminate\Support\Str::contains($q->nama_kelas, 'Start-Up Muda Indonesia') || \Illuminate\Support\Str::contains($q->nama_kelas, 'Start-Up Muslim Indonesia');
