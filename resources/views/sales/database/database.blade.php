@@ -390,7 +390,7 @@
                         </thead>
                         <tbody>
                             @foreach($data as $item)
-                                @include('admin.database.partials.row', ['item' => $item, 'loop' => $loop, 'kelas' => $kelas, 'leadSources' => $leadSources])
+                                @include('sales.database.partials.row', ['item' => $item, 'loop' => $loop, 'kelas' => $kelas, 'leadSources' => $leadSources])
                             @endforeach
                         </tbody>
                     </table>
