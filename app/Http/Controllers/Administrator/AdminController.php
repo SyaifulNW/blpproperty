@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Administrator;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Data;
@@ -75,7 +76,7 @@ class AdminController extends Controller
                 return $user;
             })->sortByDesc('omset_bulan_ini');
 
-        return view('administrator', compact(
+        return view('administrator.dashboard', compact(
             'totalBulanan',
             'totalTahunan',
             'yoyGrowth',
@@ -94,20 +95,20 @@ class AdminController extends Controller
     {
         $cs = User::findOrFail($id);
         $salesplan = $cs->salesplans; // relasi ke tabel salesplan
-        return view('admin.cs.salesplan', compact('cs', 'salesplan'));
+        return view('administrator.cs.salesplan', compact('cs', 'salesplan'));
     }
 
     public function database($id)
     {
         $cs = User::findOrFail($id);
         $database = $cs->databases; // relasi ke tabel database peserta
-        return view('admin.cs.database', compact('cs', 'database'));
+        return view('administrator.cs.database', compact('cs', 'database'));
     }
 
     public function profile()
     {
         $user = auth()->user();
-        return view('admin.profile', compact('user'));
+        return view('administrator.profile', compact('user'));
     }
 
     public function updateProfile(Request $request)

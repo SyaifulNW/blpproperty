@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Sales;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Kpr;
 use App\Models\SalesPlan;
@@ -12,7 +13,7 @@ class KprController extends Controller
     public function index(Request $request)
     {
         $kprs = Kpr::orderBy('updated_at', 'desc')->paginate(100);
-        return view('admin.kpr.index', compact('kprs'));
+        return view('sales.kpr.index', compact('kprs'));
     }
 
     public function moveToKpr($salesplanId)
@@ -21,7 +22,7 @@ class KprController extends Controller
 
         $kpr = Kpr::where('salesplan_id', $plan->id)->first();
         if ($kpr) {
-            return redirect()->route('admin.kpr.show', $kpr->id)->with('info', 'Data ini sudah ada di monitoring KPR.');
+            return redirect()->route('sales.kpr.show', $kpr->id)->with('info', 'Data ini sudah ada di monitoring KPR.');
         }
 
         $newKpr = Kpr::create([
@@ -33,13 +34,13 @@ class KprController extends Controller
             'status_global' => 'Ongoing'
         ]);
 
-        return redirect()->route('admin.kpr.show', $newKpr->id)->with('success', 'Berhasil memasukkan data ke monitoring KPR.');
+        return redirect()->route('sales.kpr.show', $newKpr->id)->with('success', 'Berhasil memasukkan data ke monitoring KPR.');
     }
 
     public function show($id)
     {
         $kpr = Kpr::findOrFail($id);
-        return view('admin.kpr.show', compact('kpr'));
+        return view('sales.kpr.show', compact('kpr'));
     }
 
     public function update(Request $request, $id)

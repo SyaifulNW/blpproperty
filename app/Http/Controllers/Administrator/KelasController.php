@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Administrator;
+
+use App\Http\Controllers\Controller;
 use App\Models\Kelas;
 use Illuminate\Http\Request;
 
@@ -16,7 +18,7 @@ public function index()
     // Urutkan berdasarkan nama kelas dari A ke Z
     $kelas = \App\Models\Kelas::orderByRaw('LOWER(nama_kelas) ASC')->get();
 
-    return view('admin.kelas.index', compact('kelas'));
+    return view('administrator.kelas.index', compact('kelas'));
 }
 
 

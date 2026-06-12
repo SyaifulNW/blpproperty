@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Administrator;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -27,7 +27,7 @@ class SettingController extends Controller
         $kelas = \App\Models\Kelas::orderByRaw('LOWER(nama_kelas) ASC')->get();
         $leadSources = \App\Models\LeadSource::orderBy('name')->get();
 
-        return view('admin.settings.index', compact(
+        return view('administrator.settings.index', compact(
             'users',
             'menus',
             'targetOmset',

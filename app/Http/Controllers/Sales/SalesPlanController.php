@@ -1,6 +1,7 @@
 <?php
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Sales;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\SalesPlan;
 use App\Models\Kelas;
@@ -231,7 +232,7 @@ class SalesPlanController extends Controller
 
 
 
-        return view('admin.salesplan.index', [
+        return view('sales.salesplan.index', [
             'salesplans' => $salesplans,
             'pesertaTransfer' => $pesertaTransfer,
             'kelasList' => $kelasList,
@@ -285,7 +286,7 @@ class SalesPlanController extends Controller
         $names = collect($salesplans->items())->pluck('nama')->filter()->toArray();
         $dataMap = Data::whereIn('nama', $names)->get()->keyBy('nama');
 
-        return view('admin.salesplan.index', [
+        return view('sales.salesplan.index', [
             'salesplans' => $salesplans,
             'kelasList' => $kelasList,
             'kelasFilter' => $kelasFilter,
@@ -414,7 +415,7 @@ class SalesPlanController extends Controller
             ->orderBy('name', 'asc')
             ->get();
 
-        return view('admin.salesplan.data_pembeli', [
+        return view('sales.salesplan.data_pembeli', [
             'pesertaTransfer' => $pesertaTransfer,
             'kelasList' => $kelasList,
             'csList' => $csList,

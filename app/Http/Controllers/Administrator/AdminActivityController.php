@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Administrator;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\DailyActiviti;
@@ -153,7 +154,7 @@ class AdminActivityController extends Controller
             }
         }
 
-        return view('admin.activity-cs.index', compact(
+        return view('administrator.activity-cs.index', compact(
             'csList', 'csId', 'tanggal', 
             'activities', 'daily', 
             'kpiData', 'totalNilai', 'totalBobot'
@@ -349,7 +350,7 @@ class AdminActivityController extends Controller
             $totalBobotSum += $bobotKategori;
         }
 
-        $pdf = Pdf::loadView('admin.dailyactivity.pdf', [
+        $pdf = Pdf::loadView('sales.dailyactivity.pdf', [
             'categories' => $categories,
             'total' => $total,
             'jumlahHari' => $jumlahHari,

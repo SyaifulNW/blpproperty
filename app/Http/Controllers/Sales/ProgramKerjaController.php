@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Sales;
 
+use App\Http\Controllers\Controller;
 use App\Models\ProgramKerja;
 use App\Models\Inisiatif;
 use Illuminate\Http\Request;
@@ -35,7 +36,7 @@ public function index()
 
     $programs = $query->get();
 
-    return view('marketing.programkerja.index', compact('programs'));
+    return view('sales.programkerja.index', compact('programs'));
 }
 
 

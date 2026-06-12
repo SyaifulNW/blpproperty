@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Marketing;
+namespace App\Http\Controllers\Sales;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -119,7 +119,7 @@ class PenilaianController extends Controller
         // ============================
         // 8. KIRIM KE VIEW
         // ============================
-        return view('marketing.penilaian.index', compact(
+        return view('sales.penilaian.index', compact(
             'bulan',
             'tahun',
             'leadsMBC',
@@ -196,18 +196,66 @@ class PenilaianController extends Controller
 
         $bulan = $request->bulan ?? date('m');
         $tahun = $request->tahun ?? date('Y');
-        $role = $user->role;
+        $bulanNum = intval($bulan);
 
-        $nilai = $this->hitungTotalNilai($userId, $namaUserData, $bulan, $tahun, $role);
+        // List CS
+        $csSMI = ['Latifah', 'Tursia'];
+        $csMBC = ['Administrator', 'Linda', 'Yasmin', 'Shafa', 'Arifa', 'Qiyya'];
+
+        // 1. LEADS MBC (45%)
+        $leadsMBC = Data::whereYear('created_at', $tahun)
+            ->whereMonth('created_at', $bulanNum)
+            ->where('leads', 'like', '%Marketing%')
+            ->whereIn('created_by', $csMBC)
+            ->count();
+
+        $targetLeadsMBC = 75;
+        $persenLeadsMBC = $targetLeadsMBC > 0 ? min(($leadsMBC / $targetLeadsMBC) * 100, 100) : 0;
+        $bobotLeadsMBC = 45;
+        $nilaiLeadsMBC = round(($persenLeadsMBC / 100) * $bobotLeadsMBC, 2);
+
+        // 2. LEADS SMI (45%)
+        $leadsSMI = Data::whereYear('created_at', $tahun)
+            ->whereMonth('created_at', $bulanNum)
+            ->where('leads', 'like', '%Marketing%')
+            ->whereIn('created_by', $csSMI)
+            ->count();
+
+        $targetLeadsSMI = 50;
+        $persenLeadsSMI = $targetLeadsSMI > 0 ? min(($leadsSMI / $targetLeadsSMI) * 100, 100) : 0;
+        $bobotLeadsSMI = 45;
+        $nilaiLeadsSMI = round(($persenLeadsSMI / 100) * $bobotLeadsSMI, 2);
+
+        // 3. PENILAIAN ATASAN (10%)
+        $manual = \App\Models\PenilaianManual::where('user_id', $userId)
+                    ->where('bulan', $bulanNum)
+                    ->where('tahun', $tahun)
+                    ->first();
+
+        $totalSumManual = $manual ? $manual->total_nilai : 0; 
+        $persenManual = $totalSumManual; 
+        $bobotManual = 10;
+        $nilaiManualPart = round(($persenManual / 100) * $bobotManual, 2);
+
+        // 4. TOTAL NILAI
+        $totalNilai = $nilaiLeadsMBC + $nilaiLeadsSMI + $nilaiManualPart;
 
         $data = [
             'bulan' => $bulan,
             'tahun' => $tahun,
-            'totalNilai' => $nilai
+            'userName' => $namaUserData,
+            'leadsMBC' => $leadsMBC,
+            'targetLeadsMBC' => $targetLeadsMBC,
+            'nilaiLeadsMBC' => $nilaiLeadsMBC,
+            'leadsSMI' => $leadsSMI,
+            'targetLeadsSMI' => $targetLeadsSMI,
+            'nilaiLeadsSMI' => $nilaiLeadsSMI,
+            'persenManual' => $persenManual,
+            'nilaiManualPart' => $nilaiManualPart,
+            'totalNilai' => $totalNilai
         ];
 
-        // Ensure this view exists or use Admin's if generic
-        $pdf = PDF::loadView('admin.penilaian.pdf', $data)
+        $pdf = PDF::loadView('sales.penilaian.pdf', $data)
                 ->setPaper('a4', 'portrait');
 
         return $pdf->download('penilaian_marketing_' . now()->format('Ymd_His') . '.pdf');

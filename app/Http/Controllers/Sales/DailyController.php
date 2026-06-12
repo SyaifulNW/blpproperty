@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Sales;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Activity;        // Master data aktivitas
 use App\Models\DailyActiviti;   // Input realisasi harian
 use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
-
 
 class DailyController extends Controller
 {
@@ -139,7 +139,7 @@ class DailyController extends Controller
         $totalNilai = $totalKpi;
 
         // Kirim ke view: activities, daily (harian), monthlyTotals, tanggal, dan kpiData + totals
-        return view('admin.dailyactivity.index', compact(
+        return view('sales.dailyactivity.index', compact(
             'activities', 'daily', 'monthlyTotals', 'tanggal',
             'kpiData', 'totalNilai', 'totalBobot'
         ));
@@ -349,7 +349,7 @@ class DailyController extends Controller
         $totalBobotSum += $bobotKategori;
     }
 
-    $pdf = PDF::loadView('admin.dailyactivity.pdf', [
+    $pdf = PDF::loadView('sales.dailyactivity.pdf', [
         'categories' => $categories,
         'total' => $total,
         'jumlahHari' => $jumlahHari,

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Administrator;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -33,7 +33,7 @@ class PenilaianCsController extends Controller
              $daftarCs = User::where('name', '!=', 'Fitra Jaya Saleh')->orderBy('name')->get();
         }
 
-        return $this->getPenilaianData($request, $daftarCs, 'admin.penilaian-cs.index');
+        return $this->getPenilaianData($request, $daftarCs, 'administrator.penilaian-cs.index');
     }
 
     public function managerIndex(Request $request)
@@ -52,15 +52,14 @@ class PenilaianCsController extends Controller
                              ->whereNotIn('name', ['Linda', 'Yasmin'])
                              ->orderBy('name')
                              ->get();
-             $routeView = 'admin.penilaian-cs.index'; // Tetap gunakan view admin jika diperlukan
+             $routeView = 'administrator.penilaian-cs.index';
+             $routeView = 'administrator.penilaian-cs.index';
         } elseif ($userName === 'Yasmin') {
-            // Yasmin bisa melihat SEMUA user
-            $daftarCs = User::where('name', '!=', 'Fitra Jaya Saleh')->orderBy('name')->get();
-            $routeView = 'admin.penilaian-cs.index';
+             $daftarCs = User::where('name', '!=', 'Fitra Jaya Saleh')->orderBy('name')->get();
+             $routeView = 'administrator.penilaian-cs.index';
         } elseif ($userName === 'Agus Setyo') {
-            // Agus Setyo view self
-            $daftarCs = User::where('name', 'Agus Setyo')->get();
-            $routeView = 'admin.penilaian-cs.index';
+             $daftarCs = User::where('name', 'Agus Setyo')->get();
+             $routeView = 'administrator.penilaian-cs.index';
         } else {
             // Default Fallback (jika ada manager lain) -> Filter Tursia & Latifah
             $daftarCs = User::whereIn('name', ['Tursia', 'Latifah'])->orderBy('name')->get();
@@ -254,11 +253,11 @@ class PenilaianCsController extends Controller
         }
 
         // Determine View
-        $viewName = 'admin.penilaian-cs.index';
+        $viewName = 'administrator.penilaian-cs.index';
         
         // Jika Agus Setyo login dan melihat datanya sendiri -> Tampilkan Self View
         if ($namaUser === 'Agus Setyo' && auth()->user()->name === 'Agus Setyo') {
-            $viewName = 'admin.penilaian-cs.self';
+            $viewName = 'sales.penilaian-cs.self';
         }
 
         return view($viewName, compact(
@@ -435,7 +434,7 @@ public function store(Request $request)
         // But we need to ensure the variable names match what the view expects.
 
         // Return View Marketing
-        return view('marketing.penilaian.index', compact(
+        return view('sales.penilaian.index', compact(
             'bulan', 'tahun', 'targetUser', 'daftarCs', 'routeAction', 'userId',
             'leadsMBC', 'targetLeadsMBC', 'persenLeadsMBC', 'nilaiLeadsMBC',
             'leadsSMI', 'targetLeadsSMI', 'persenLeadsSMI', 'nilaiLeadsSMI',
@@ -586,7 +585,7 @@ public function store(Request $request)
         // ... (This might be redundant if we just print the form, but let's pass listPesertaSMI for the checklist)
         $listPesertaSMI = collect();
         
-        $pdf = \PDF::loadView('admin.penilaian-cs.pdf', compact('data', 'tanggal', 'listPesertaSMI', 'namaUser'));
+        $pdf = \PDF::loadView('administrator.penilaian-cs.pdf', compact('data', 'tanggal', 'listPesertaSMI', 'namaUser'));
         return $pdf->download('Daily_Activity_' . $tanggal . '.pdf');
     }
 }

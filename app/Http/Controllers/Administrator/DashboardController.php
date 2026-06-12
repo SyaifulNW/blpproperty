@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Administrator;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -16,7 +17,7 @@ class DashboardController extends Controller
             'inventory' => 128
         ];
 
-        return view('admin.operasional', compact('stats'));
+        return view('administrator.operasional', compact('stats'));
     }
 
     public function keuangan()
@@ -29,6 +30,6 @@ class DashboardController extends Controller
             'pending_invoice' => 3
         ];
         
-        return view('admin.keuangan', compact('stats'));
+        return view('administrator.keuangan', compact('stats'));
     }
 }

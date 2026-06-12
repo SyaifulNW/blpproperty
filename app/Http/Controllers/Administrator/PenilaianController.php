@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Administrator;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -162,7 +162,7 @@ class PenilaianController extends Controller
         // ============================
         // 8. KIRIM KE VIEW
         // ============================
-        return view('admin.penilaian.index', compact(
+        return view('administrator.penilaian.index', compact(
             'bulan',
             'tahun',
             'totalOmset',
@@ -321,7 +321,7 @@ class PenilaianController extends Controller
             'userName' => $namaUserData
         ];
 
-        $pdf = PDF::loadView('admin.penilaian.pdf', $data)
+        $pdf = PDF::loadView('administrator.penilaian.pdf', $data)
                 ->setPaper('a4', 'portrait');
 
         return $pdf->download('penilaian_cs_' . now()->format('Ymd_His') . '.pdf');

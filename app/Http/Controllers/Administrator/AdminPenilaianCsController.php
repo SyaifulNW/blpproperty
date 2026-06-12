@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Administrator;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use PDF; // barryvdh dompdf
 use Carbon\Carbon;
 
-class PenilaianCsController extends Controller
+class AdminPenilaianCsController extends Controller
 {
     public function index(Request $request)
     {
@@ -71,7 +71,7 @@ class PenilaianCsController extends Controller
         ]);
 
 
-        return view('admin.penilaian.index', compact(
+        return view('administrator.penilaian.index', compact(
             'totalOmset',
             'nilaiOmset',
             'closingPaket',
@@ -130,7 +130,7 @@ class PenilaianCsController extends Controller
             'totalNilai'
         );
 
-        $pdf = PDF::loadView('admin.penilaian.pdf', $data)
+        $pdf = PDF::loadView('administrator.penilaian.pdf', $data)
                     ->setPaper('a4', 'portrait');
 
         $filename = 'penilaian_cs_' . now()->format('Ymd_His') . '.pdf';

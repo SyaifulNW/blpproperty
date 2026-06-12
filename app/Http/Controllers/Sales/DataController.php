@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Sales;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Kelas; // Ensure you import the Kelas model
 use App\Models\Data;
@@ -33,7 +34,7 @@ class DataController extends Controller
             $leadSources = \App\Models\LeadSource::orderBy('name')->get();
 
             // Gunakan view partial yang sama dengan loop utama untuk konsistensi
-            $html = view('admin.database.partials.row', [
+            $html = view('sales.database.partials.row', [
                 'item' => $newData,
                 'loop' => (object) ['iteration' => 'New'], // Placeholder iteration
                 'kelas' => $kelas,
@@ -157,7 +158,7 @@ class DataController extends Controller
 
         $kotaList = $kotaQuery->pluck('kota_nama');
 
-        return view('admin.database.database', [
+        return view('sales.database.database', [
             'data' => $data,
             'kelas' => $kelas,
             'csList' => $csList,
@@ -180,7 +181,7 @@ class DataController extends Controller
     public function create()
     {
         // Return a view to create a new resource
-        return view('admin.database.create');
+        return view('sales.database.create');
     }
 
     /**
@@ -296,7 +297,7 @@ class DataController extends Controller
         $data = data::findOrFail($id);
         $kelas = Kelas::all(); // Fetch all classes for the sidebar
         // Return a view to show the data
-        return view('admin.database.show', compact('data', 'kelas'));
+        return view('sales.database.show', compact('data', 'kelas'));
     }
 
     public function edit($id)
@@ -305,7 +306,7 @@ class DataController extends Controller
         $kelas = Kelas::orderBy('nama_kelas')->get();
         $leadSources = \App\Models\LeadSource::orderBy('name')->get();
 
-        return view('admin.database.edit', compact('data', 'kelas', 'leadSources'));
+        return view('sales.database.edit', compact('data', 'kelas', 'leadSources'));
     }
 
     public function update(Request $request, $id)
@@ -359,7 +360,7 @@ class DataController extends Controller
                 ->where('created_by', Auth::user()->name)
                 ->get();
         }
-        return view('admin.database.database', compact('data'));
+        return view('sales.database.database', compact('data'));
     }
 
     public function alumni()
@@ -371,7 +372,7 @@ class DataController extends Controller
                 ->where('created_by', Auth::user()->name)
                 ->get();
         }
-        return view('admin.database.database', compact('data'));
+        return view('sales.database.database', compact('data'));
     }
 
     private function filterKelasByUser($user)
@@ -518,7 +519,7 @@ class DataController extends Controller
     public function cetakInteraksiPdf($id)
     {
         $data = Data::with('spinInteractions')->findOrFail($id);
-        $pdf = \PDF::loadView('admin.database.pdf-rekap', compact('data'));
+        $pdf = \PDF::loadView('sales.database.pdf-rekap', compact('data'));
         return $pdf->stream('Rekap-Interaksi-' . $data->nama . '.pdf');
     }
 
@@ -539,7 +540,7 @@ class DataController extends Controller
             $periode = $tahunFilter;
         }
 
-        $pdf = \PDF::loadView('admin.database.pdf-rekap-bulanan', [
+        $pdf = \PDF::loadView('sales.database.pdf-rekap-bulanan', [
             'data' => $data,
             'periode' => $periode,
             'csName' => $request->input('cs_name') ?: $user->name

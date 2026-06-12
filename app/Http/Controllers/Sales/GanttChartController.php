@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Sales;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ProgramKerja;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Inisiatif;
-
 use Carbon\Carbon;
 
 class GanttChartController extends Controller
@@ -69,7 +69,7 @@ public function index()
         }
     }
 
-    return view('marketing.gantt.index', compact('ganttData'));
+    return view('sales.gantt.index', compact('ganttData'));
 }
 
 public function markDone($id)

@@ -2,25 +2,25 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\DataController;
+use App\Http\Controllers\Sales\DataController;
 use App\Http\Controllers\OngkirController;
 use App\Http\Controllers\WilayahController;
-use App\Http\Controllers\AlumniController;
-use App\Http\Controllers\SalesPlanController;
-use App\Http\Controllers\DailyController;
+// use App\Http\Controllers\AlumniController; // Deleted by user
+use App\Http\Controllers\Sales\SalesPlanController;
+use App\Http\Controllers\Sales\DailyController;
 use App\Http\Controllers\KoordinasiController;
-use App\Http\Controllers\GanttChartController;
-use App\Http\Controllers\PenilaianCsController;
-use App\Http\Controllers\Admin\PenilaianController;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\KelasController;
+use App\Http\Controllers\Sales\GanttChartController;
+use App\Http\Controllers\Administrator\PenilaianCsController;
+use App\Http\Controllers\Administrator\PenilaianController;
+use App\Http\Controllers\Administrator\AdminController;
+use App\Http\Controllers\Administrator\DashboardController;
+use App\Http\Controllers\Administrator\KelasController;
 use App\Http\Controllers\NotifikasiController;
-use App\Http\Controllers\AdminActivityController;
+use App\Http\Controllers\Administrator\AdminActivityController;
 use App\Http\Controllers\MessageController;
-use App\Http\Controllers\ProgramKerjaController;
-use App\Http\Controllers\Marketing\PenilaianController as MarketingPenilaianController;
-use App\Http\Controllers\KprController;
+use App\Http\Controllers\Sales\ProgramKerjaController;
+use App\Http\Controllers\Sales\PenilaianController as MarketingPenilaianController;
+use App\Http\Controllers\Sales\KprController;
 
 
 
@@ -39,10 +39,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// ✅ Halaman untuk Administrator
-Route::get('/administrator', [App\Http\Controllers\AdministratorController::class, 'index'])
-    ->middleware('auth')
-    ->name('administrator');
+// ✅ Halaman untuk Administrator (Defined below with AdminController)
 
 Route::get('/marketing', function () {
     return view('marketing');
@@ -53,29 +50,29 @@ Route::get('/hr', function () {
     return view('hr');
 })->middleware(['auth'])->name('hr');
 
-// ✅ Halaman untuk Advertising
-Route::get('/advertising', [App\Http\Controllers\AdvertisingController::class, 'index'])
-    ->middleware('auth')
-    ->name('advertising');
+// ✅ Halaman untuk Advertising (Commented out because AdvertisingController is deleted)
+// Route::get('/advertising', [App\Http\Controllers\AdvertisingController::class, 'index'])
+//     ->middleware('auth')
+//     ->name('advertising');
 
 
 // ✅ Halaman untuk CS & Marketing
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])
+Route::get('/home', [App\Http\Controllers\Sales\HomeController::class, 'index'])
     ->name('home')
     ->middleware('auth');
 
 
 
 // ✅ History Penjualan Routes
-Route::post('/history-penjualan', [App\Http\Controllers\HistoryPenjualanController::class, 'store'])->name('history-penjualan.store')->middleware('auth');
-Route::put('/history-penjualan/{id}', [App\Http\Controllers\HistoryPenjualanController::class, 'update'])->name('history-penjualan.update')->middleware('auth');
-Route::delete('/history-penjualan/{id}', [App\Http\Controllers\HistoryPenjualanController::class, 'destroy'])->name('history-penjualan.destroy')->middleware('auth');
+Route::post('/history-penjualan', [App\Http\Controllers\Sales\HistoryPenjualanController::class, 'store'])->name('history-penjualan.store')->middleware('auth');
+Route::put('/history-penjualan/{id}', [App\Http\Controllers\Sales\HistoryPenjualanController::class, 'update'])->name('history-penjualan.update')->middleware('auth');
+Route::delete('/history-penjualan/{id}', [App\Http\Controllers\Sales\HistoryPenjualanController::class, 'destroy'])->name('history-penjualan.destroy')->middleware('auth');
 
 
 
-Route::get('/manager', [App\Http\Controllers\DashboardManagerController::class, 'index'])
-    ->middleware('auth')
-    ->name('manager');
+// Route::get('/manager', [App\Http\Controllers\DashboardManagerController::class, 'index'])
+//     ->middleware('auth')
+//     ->name('manager');
 
 // Activity CS (Accessible by Admin, Manager, etc. - controller handles logic)
 // Moved here to prevent accidental role:administrator inheritance
@@ -84,9 +81,9 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('/activity-cs/export-pdf-bulanan', [AdminActivityController::class, 'viewPdfBulanan'])->name('admin.activity-cs.viewPdfBulanan');
 });
 
-Route::get('/manager/penilaian-cs', [App\Http\Controllers\PenilaianCsController::class, 'managerIndex'])
-    ->middleware('auth')
-    ->name('manager.penilaian-cs.index');
+// Route::get('/manager/penilaian-cs', [PenilaianCsController::class, 'managerIndex'])
+//     ->middleware('auth')
+//     ->name('manager.penilaian-cs.index');
 
 
 
@@ -106,7 +103,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
 
     // PENILAIAN CS
-    Route::resource('penilaian', App\Http\Controllers\Admin\PenilaianCsController::class);
+    Route::resource('penilaian', App\Http\Controllers\Administrator\AdminPenilaianCsController::class);
 
 });
 
@@ -136,13 +133,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
 Route::post('/programkerja/update-inline', [ProgramKerjaController::class, 'updateInline'])
     ->name('programkerja.update-inline');
 
-
-
-
-
 // ✅ Public Leads Form (Google Forms integration)
-Route::get('/form-leads', [App\Http\Controllers\FormLeadsController::class, 'show'])->name('public.form-leads');
-Route::post('/form-leads', [App\Http\Controllers\FormLeadsController::class, 'submit'])->name('public.form-leads.submit');
+Route::get('/form-leads', [App\Http\Controllers\Sales\FormLeadsController::class, 'show'])->name('public.form-leads');
+Route::post('/form-leads', [App\Http\Controllers\Sales\FormLeadsController::class, 'submit'])->name('public.form-leads.submit');
 
 
 // ✅ Auth bawaan Laravel
@@ -151,13 +144,13 @@ Auth::routes();
 
 
 // Database Routes
-Route::get('/admin/database/database', [App\Http\Controllers\DataController::class, 'index'])->name('admin.database.database');
-Route::get('/admin/database/create', [App\Http\Controllers\DataController::class, 'create'])->name('admin.database.create');
-Route::post('/admin/database/store', [App\Http\Controllers\DataController::class, 'store'])->name('admin.database.store');
-Route::get('/admin/database/{id}/edit', [App\Http\Controllers\DataController::class, 'edit'])->name('admin.database.edit');
-Route::put('/admin/database/{id}', [App\Http\Controllers\DataController::class, 'update'])->name('admin.database.update');
-Route::delete('/admin/database/{id}', [App\Http\Controllers\DataController::class, 'destroy'])->name('delete-database');
-Route::get('/admin/database/{id}', [App\Http\Controllers\DataController::class, 'show'])->name('admin.database.show');
+Route::get('/admin/database/database', [DataController::class, 'index'])->name('admin.database.database');
+Route::get('/admin/database/create', [DataController::class, 'create'])->name('admin.database.create');
+Route::post('/admin/database/store', [DataController::class, 'store'])->name('admin.database.store');
+Route::get('/admin/database/{id}/edit', [DataController::class, 'edit'])->name('admin.database.edit');
+Route::put('/admin/database/{id}', [DataController::class, 'update'])->name('admin.database.update');
+Route::delete('/admin/database/{id}', [DataController::class, 'destroy'])->name('delete-database');
+Route::get('/admin/database/{id}', [DataController::class, 'show'])->name('admin.database.show');
 
 // Potensi
 
@@ -171,29 +164,29 @@ Route::post('/admin/database/update-inline', [DataController::class, 'updateInli
 
 
 
-// Ongkir Routes
-Route::get('/ongkir/provinsi', [OngkirController::class, 'getProvinsi'])->name('ongkir.provinsi');
-Route::get('/ongkir/kota', [OngkirController::class, 'getKota'])->name('ongkir.kota');
+// Ongkir Routes (Commented out because OngkirController is deleted)
+// Route::get('/ongkir/provinsi', [OngkirController::class, 'getProvinsi'])->name('ongkir.provinsi');
+// Route::get('/ongkir/kota', [OngkirController::class, 'getKota'])->name('ongkir.kota');
 
 //Wilayah
 Route::get('/wilayah/provinsi', [WilayahController::class, 'getProvinces']);
 Route::get('/wilayah/kota/{id}', [WilayahController::class, 'getCities']);
 
-// Alumni Routes
-Route::post('/data/pindah-ke-alumni/{id}', [DataController::class, 'pindahKeAlumni'])->name('data.pindahKeAlumni');
+// Alumni Routes (Commented out because AlumniController is deleted)
+// Route::post('/data/pindah-ke-alumni/{id}', [DataController::class, 'pindahKeAlumni'])->name('data.pindahKeAlumni');
 
-Route::get('/admin/alumni/alumni', [App\Http\Controllers\AlumniController::class, 'index'])->name('admin.alumni.alumni');
-Route::get('/admin/alumni/create', [App\Http\Controllers\AlumniController::class, 'create'])->name('admin.alumni.create');
-Route::post('/admin/alumni/store', [App\Http\Controllers\AlumniController::class, 'store'])->name('admin.alumni.store');
-Route::get('/admin/alumni/{id}/edit', [App\Http\Controllers\AlumniController::class, 'edit'])->name('admin.alumni.edit');
-Route::put('/admin/alumni/{id}', [App\Http\Controllers\AlumniController::class, 'update'])->name('admin.alumni.update');
-Route::delete('/admin/alumni/{id}', [App\Http\Controllers\AlumniController::class, 'destroy'])->name('delete-alumni');
-Route::get('/admin/alumni/{id}', [App\Http\Controllers\AlumniController::class, 'show'])->name('admin.alumni.show');
+// Route::get('/admin/alumni/alumni', [App\Http\Controllers\AlumniController::class, 'index'])->name('admin.alumni.alumni');
+// Route::get('/admin/alumni/create', [App\Http\Controllers\AlumniController::class, 'create'])->name('admin.alumni.create');
+// Route::post('/admin/alumni/store', [App\Http\Controllers\AlumniController::class, 'store'])->name('admin.alumni.store');
+// Route::get('/admin/alumni/{id}/edit', [App\Http\Controllers\AlumniController::class, 'edit'])->name('admin.alumni.edit');
+// Route::put('/admin/alumni/{id}', [App\Http\Controllers\AlumniController::class, 'update'])->name('admin.alumni.update');
+// Route::delete('/admin/alumni/{id}', [App\Http\Controllers\AlumniController::class, 'destroy'])->name('delete-alumni');
+// Route::get('/admin/alumni/{id}', [App\Http\Controllers\AlumniController::class, 'show'])->name('admin.alumni.show');
 
 
 // Alumni
-Route::post('/admin/alumni/update-inline', [\App\Http\Controllers\AlumniController::class, 'updateInline'])->name('admin.alumni.update-inline');
-Route::post('/admin/alumni/update-kelas', [\App\Http\Controllers\AlumniController::class, 'updateKelas'])->name('admin.alumni.update-kelas');
+// Route::post('/admin/alumni/update-inline', [\App\Http\Controllers\AlumniController::class, 'updateInline'])->name('admin.alumni.update-inline');
+// Route::post('/admin/alumni/update-kelas', [\App\Http\Controllers\AlumniController::class, 'updateKelas'])->name('admin.alumni.update-kelas');
 
 // Sales Plan Routes 
 Route::post('/data/{id}/pindah-ke-salesplan', [DataController::class, 'pindahKeSalesPlan'])->name('data.pindahKeSalesPlan');
@@ -207,8 +200,8 @@ Route::put('/admin/salesplan/{id}', [SalesPlanController::class, 'update'])->nam
 Route::get('/salesplan/export', [SalesPlanController::class, 'export'])->name('salesplan.export');
 
 // Daily Activities
-Route::get('/admin/dailyactivity/index', [App\Http\Controllers\DailyController::class, 'index'])->name('admin.dailyactivity.index');
-Route::post('/admin/daily-activity', [App\Http\Controllers\DailyController::class, 'store'])->name('admin.daily-activity.store');
+Route::get('/admin/dailyactivity/index', [DailyController::class, 'index'])->name('admin.dailyactivity.index');
+Route::post('/admin/daily-activity', [DailyController::class, 'store'])->name('admin.daily-activity.store');
 
 
 // KPR Monitoring Routes
@@ -221,9 +214,9 @@ Route::post('/admin/kpr/move/{id}', [KprController::class, 'moveToKpr'])->name('
 Route::post('/admin/kpr/update-stage/{id}', [KprController::class, 'updateStage'])->name('admin.kpr.update-stage');
 Route::delete('/admin/kpr/{id}', [KprController::class, 'destroy'])->name('admin.kpr.destroy');
 
-// Pindah Salesplan dari Alumni
-Route::post('/admin/alumni/to-salesplan/{id}', [AlumniController::class, 'toSalesplan'])->name('admin.alumni.toSalesplan');
-Route::post('/admin/alumni/{id}/simpan-kelas', [AlumniController::class, 'simpanKelas'])->name('admin.alumni.simpanKelas');
+// Pindah Salesplan dari Alumni (Commented out because AlumniController is deleted)
+// Route::post('/admin/alumni/to-salesplan/{id}', [AlumniController::class, 'toSalesplan'])->name('admin.alumni.toSalesplan');
+// Route::post('/admin/alumni/{id}/simpan-kelas', [AlumniController::class, 'simpanKelas'])->name('admin.alumni.simpanKelas');
 
 // Per FU
 Route::put('/salesplan/{id}/fu/{fu}', [SalesPlanController::class, 'updateFU'])->name('admin.salesplan.update-fu');
@@ -261,7 +254,7 @@ Route::post('/admin/database/{id}/tambah-salesplan', [DataController::class, 'ta
 Route::resource('salesplan', SalesPlanController::class);
 
 
-Route::delete('/admin/salesplan/{id}', [App\Http\Controllers\SalesPlanController::class, 'destroy'])
+Route::delete('/admin/salesplan/{id}', [SalesPlanController::class, 'destroy'])
     ->name('admin.salesplan.destroy');
 
 
@@ -286,7 +279,7 @@ Route::get('/admin/daily-activity/export-pdf/{bulan}', [DailyController::class, 
 
 
 
-Route::get('/administrator', [AdminController::class, 'index'])->name('administrator');
+Route::get('/administrator', [AdminController::class, 'index'])->middleware('auth')->name('administrator');
 Route::get('/admin/profile', [AdminController::class, 'profile'])->name('admin.profile');
 Route::post('/admin/profile/update', [AdminController::class, 'updateProfile'])->name('admin.profile.update');
 
@@ -300,13 +293,13 @@ Route::get('/admin/cs/{id}', [AdminController::class, 'detailCS'])->name('admin.
 //     Route::get('{id}/database', [App\Http\Controllers\Admin\CSController::class, 'database'])->name('admin.cs.database');
 // });
 
-// Route untuk admin lihat database CS
-Route::get('/koordinasi/{id}', [App\Http\Controllers\KoordinasiController::class, 'show'])
-    ->name('koordinasi.show')
-    ->middleware('auth');
+// Route untuk admin lihat database CS (Commented out because KoordinasiController is deleted)
+// Route::get('/koordinasi/{id}', [App\Http\Controllers\KoordinasiController::class, 'show'])
+//     ->name('koordinasi.show')
+//     ->middleware('auth');
 
 Route::middleware(['auth', 'role:administrator'])->group(function () {
-    Route::get('/koordinasi/{csId}', [App\Http\Controllers\HomeController::class, 'showDashboardCs'])->name('koordinasi.cs');
+    Route::get('/koordinasi/{csId}', [App\Http\Controllers\Sales\HomeController::class, 'showDashboardCs'])->name('koordinasi.cs');
 });
 
 
@@ -326,17 +319,17 @@ Route::prefix('admin')->name('admin.')->group(function () {
 });
 
 
-// Penjualan controller
-Route::prefix('admin')->middleware(['auth'])->group(function () {
-    Route::get('/penjualan', [App\Http\Controllers\PenjualanController::class, 'index'])
-        ->name('penjualan.index');
-});
+// Penjualan controller (Commented out because PenjualanController is deleted)
+// Route::prefix('admin')->middleware(['auth'])->group(function () {
+//     Route::get('/penjualan', [App\Http\Controllers\PenjualanController::class, 'index'])
+//         ->name('penjualan.index');
+// });
 
 
 
 
-Route::post('/koordinasi/komentar', [KoordinasiController::class, 'kirimKomentar'])
-    ->name('komentar.store');
+// Route::post('/koordinasi/komentar', [KoordinasiController::class, 'kirimKomentar'])
+//     ->name('komentar.store');
 
 // routes/web.php notifikasi
 
@@ -351,16 +344,16 @@ Route::post('/koordinasi/komentar', [KoordinasiController::class, 'kirimKomentar
 
 Route::prefix('admin')->middleware(['auth', 'role:administrator'])->group(function () {
     // --- SETTINGS ---
-    Route::get('/settings', [App\Http\Controllers\Admin\SettingController::class, 'index'])->name('admin.settings.index');
-    Route::post('/settings/users', [App\Http\Controllers\Admin\SettingController::class, 'storeUser'])->name('admin.settings.users.store');
-    Route::put('/settings/users/{id}', [App\Http\Controllers\Admin\SettingController::class, 'updateUser'])->name('admin.settings.users.update');
-    Route::delete('/settings/users/{id}', [App\Http\Controllers\Admin\SettingController::class, 'destroyUser'])->name('admin.settings.users.destroy');
-    Route::post('/settings/target', [App\Http\Controllers\Admin\SettingController::class, 'updateTarget'])->name('admin.settings.target.update');
-    Route::post('/settings/reward', [App\Http\Controllers\Admin\SettingController::class, 'updateReward'])->name('admin.settings.reward.update');
-    Route::post('/settings/menus/toggle', [App\Http\Controllers\Admin\SettingController::class, 'toggleMenu'])->name('admin.settings.menus.toggle');
-    Route::post('/settings/role-menus/update', [App\Http\Controllers\Admin\SettingController::class, 'updateRoleMenu'])->name('admin.settings.role-menus.update');
-    Route::post('/settings/lead-sources', [App\Http\Controllers\Admin\SettingController::class, 'storeLeadSource'])->name('admin.settings.lead-sources.store');
-    Route::delete('/settings/lead-sources/{id}', [App\Http\Controllers\Admin\SettingController::class, 'destroyLeadSource'])->name('admin.settings.lead-sources.destroy');
+    Route::get('/settings', [App\Http\Controllers\Administrator\SettingController::class, 'index'])->name('admin.settings.index');
+    Route::post('/settings/users', [App\Http\Controllers\Administrator\SettingController::class, 'storeUser'])->name('admin.settings.users.store');
+    Route::put('/settings/users/{id}', [App\Http\Controllers\Administrator\SettingController::class, 'updateUser'])->name('admin.settings.users.update');
+    Route::delete('/settings/users/{id}', [App\Http\Controllers\Administrator\SettingController::class, 'destroyUser'])->name('admin.settings.users.destroy');
+    Route::post('/settings/target', [App\Http\Controllers\Administrator\SettingController::class, 'updateTarget'])->name('admin.settings.target.update');
+    Route::post('/settings/reward', [App\Http\Controllers\Administrator\SettingController::class, 'updateReward'])->name('admin.settings.reward.update');
+    Route::post('/settings/menus/toggle', [App\Http\Controllers\Administrator\SettingController::class, 'toggleMenu'])->name('admin.settings.menus.toggle');
+    Route::post('/settings/role-menus/update', [App\Http\Controllers\Administrator\SettingController::class, 'updateRoleMenu'])->name('admin.settings.role-menus.update');
+    Route::post('/settings/lead-sources', [App\Http\Controllers\Administrator\SettingController::class, 'storeLeadSource'])->name('admin.settings.lead-sources.store');
+    Route::delete('/settings/lead-sources/{id}', [App\Http\Controllers\Administrator\SettingController::class, 'destroyLeadSource'])->name('admin.settings.lead-sources.destroy');
 
 
 });
@@ -372,17 +365,18 @@ Route::prefix('admin')->middleware(['auth', 'role:administrator'])->group(functi
 // });
 
 
-Route::get('/chat/{id}', [App\Http\Controllers\ChatController::class, 'show'])->name('chat.show');
-Route::post('/chat/{id}', [App\Http\Controllers\ChatController::class, 'store'])->name('chat.store');
+// Chat routes (Commented out because ChatController is deleted)
+// Route::get('/chat/{id}', [App\Http\Controllers\ChatController::class, 'show'])->name('chat.show');
+// Route::post('/chat/{id}', [App\Http\Controllers\ChatController::class, 'store'])->name('chat.store');
 
 
 
 
-Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
-    Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
-    Route::get('/messages/{id}', [MessageController::class, 'show'])->name('messages.show');
-    Route::post('/messages/{id}/reply', [MessageController::class, 'reply'])->name('messages.reply');
-});
+// Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
+//     Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
+//     Route::get('/messages/{id}', [MessageController::class, 'show'])->name('messages.show');
+//     Route::post('/messages/{id}/reply', [MessageController::class, 'reply'])->name('messages.reply');
+// });
 
 // routes/web.php
 // routes/web.php

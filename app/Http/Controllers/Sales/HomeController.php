@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Sales;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Kelas;
 use App\Models\SalesPlan;
@@ -310,7 +311,7 @@ class HomeController extends Controller
             ->get();
 
         // ====================== RETURN ======================
-        return view('home', compact(
+        return view('sales.dashboard', compact(
             'historyPenjualans',
             'allProducts',
             'kelasOmsetFiltered',
