@@ -172,8 +172,8 @@ Route::post('/admin/database/update-inline', [DataController::class, 'updateInli
 Route::get('/wilayah/provinsi', [WilayahController::class, 'getProvinces']);
 Route::get('/wilayah/kota/{id}', [WilayahController::class, 'getCities']);
 
-// Alumni Routes (Commented out because AlumniController is deleted)
-// Route::post('/data/pindah-ke-alumni/{id}', [DataController::class, 'pindahKeAlumni'])->name('data.pindahKeAlumni');
+// Alumni Routes
+Route::post('/data/pindah-ke-alumni/{id}', [DataController::class, 'pindahKeAlumni'])->name('data.pindahKeAlumni');
 
 // Route::get('/admin/alumni/alumni', [App\Http\Controllers\AlumniController::class, 'index'])->name('admin.alumni.alumni');
 // Route::get('/admin/alumni/create', [App\Http\Controllers\AlumniController::class, 'create'])->name('admin.alumni.create');
