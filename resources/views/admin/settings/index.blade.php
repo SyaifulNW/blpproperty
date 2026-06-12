@@ -95,8 +95,11 @@
                                                     <div class="form-group">
                                                         <label>Role</label>
                                                         <select name="role" class="form-control" required>
-                                                            @foreach(['administrator', 'marketing', 'cs-smi', 'manager', 'hrd', 'user'] as $r)
-                                                                <option value="{{ $r }}" {{ $u->role == $r ? 'selected' : '' }}>
+                                                            @if(!in_array(strtolower($u->role), ['administrator', 'sales']))
+                                                                <option value="{{ $u->role }}" selected>{{ ucfirst($u->role) }}</option>
+                                                            @endif
+                                                            @foreach(['administrator', 'sales'] as $r)
+                                                                <option value="{{ $r }}" {{ strtolower($u->role) == $r ? 'selected' : '' }}>
                                                                     {{ ucfirst($r) }}</option>
                                                             @endforeach
                                                         </select>
@@ -365,12 +368,8 @@
                         <div class="form-group">
                             <label>Role</label>
                             <select name="role" class="form-control" required>
-                                <option value="user">User</option>
-                                <option value="marketing">Marketing</option>
-                                <option value="cs-smi">CS SMI</option>
-                                <option value="manager">Manager</option>
-                                <option value="hrd">HRD</option>
                                 <option value="administrator">Administrator</option>
+                                <option value="sales">Sales</option>
                             </select>
                         </div>
                         <div class="form-group">

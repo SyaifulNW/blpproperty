@@ -25,7 +25,7 @@ protected function authenticated(Request $request, $user)
     switch (strtolower($user->role)) {
 
         case 'administrator':
-            return redirect('/admin/penjualan');
+            return redirect('/administrator');
 
         case 'marketing':
             return redirect('/marketing');
