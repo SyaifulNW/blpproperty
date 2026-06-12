@@ -721,10 +721,11 @@
                             --}}
 
                             <!-- ================== NAVBAR PESAN MASUK (ADMIN) ================== -->
+                            {{-- Commented out because MessageController is deleted
                             @if(auth()->user()->role === 'administrator')
                                 <li class="nav-item mx-1">
                                     <a class="nav-link position-relative notif-message"
-                                        href="{{ route('admin.messages.index') }}">
+                                        href="#">
                                         <i class="fas fa-envelope fa-lg text-primary"></i>
                                         @if(isset($messageCount) && $messageCount > 0)
                                             <span class="badge badge-pill badge-danger badge-counter pulse-badge">
@@ -734,6 +735,7 @@
                                     </a>
                                 </li>
                             @endif
+                            --}}
 
                             <!-- ================== STYLE BADGE ================== -->
                             <style>
