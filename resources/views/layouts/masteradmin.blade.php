@@ -445,6 +445,7 @@
                     --}}
                 @elseif(auth()->user()->name === 'Agus Setyo')
                     {{-- Agus Setyo: Hanya bisa lihat Tursia dan Latifah --}}
+                    {{-- Hidden: Pembelajaran Siswa & Daftar Peserta SMI karena controllernya sudah dihapus
                     <li class="nav-item {{ request()->routeIs('pembelajaran.index') ? 'active' : '' }}">
                         <a class="nav-link" href="{{ route('pembelajaran.index') }}">
                             <i class="fas fa-fw fa-book"></i>
@@ -458,6 +459,7 @@
                             <span><strong>DAFTAR PESERTA SMI</strong></span>
                         </a>
                     </li>
+                    --}}
 
                     @if(\App\Models\Menu::isActive('database_cs'))
                         <li class="nav-item">

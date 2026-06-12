@@ -311,7 +311,7 @@ Route::middleware(['auth', 'role:administrator'])->group(function () {
 
 
 // Managemen Peserta SMI
-Route::resource('peserta-smi', App\Http\Controllers\PesertaSmiController::class);
+// Route::resource('peserta-smi', App\Http\Controllers\PesertaSmiController::class);
 
 // Route::get('/user/{id}', [UserController::class, 'show'])->name('user.show');
 
@@ -420,9 +420,9 @@ Route::get('/marketing/gantt-chart', [GanttChartController::class, 'index'])
     ->middleware('auth');
 
 // Pembelajaran Siswa (Form KRS) - Agus Setyo
-Route::get('/pembelajaran-siswa', [App\Http\Controllers\PembelajaranSiswaController::class, 'index'])
-    ->name('pembelajaran.index')
-    ->middleware('auth');
+// Route::get('/pembelajaran-siswa', [App\Http\Controllers\PembelajaranSiswaController::class, 'index'])
+//     ->name('pembelajaran.index')
+//     ->middleware('auth');
 
 
 

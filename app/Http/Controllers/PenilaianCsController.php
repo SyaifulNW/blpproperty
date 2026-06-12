@@ -271,7 +271,7 @@ class PenilaianCsController extends Controller
             'closingPaketCount', 'targetClosingPaket', 'targetDatabase', 'manualTotalSum',
             'dailyTotalKpi',
             'historyNilai'
-        ) + ['listPesertaSMI' => \App\Models\PesertaSmi::all()]);
+        ) + ['listPesertaSMI' => collect()]);
     }
 
 public function store(Request $request)
@@ -584,7 +584,7 @@ public function store(Request $request)
 
         // Fetch same data as index
         // ... (This might be redundant if we just print the form, but let's pass listPesertaSMI for the checklist)
-        $listPesertaSMI = \App\Models\PesertaSmi::all();
+        $listPesertaSMI = collect();
         
         $pdf = \PDF::loadView('admin.penilaian-cs.pdf', compact('data', 'tanggal', 'listPesertaSMI', 'namaUser'));
         return $pdf->download('Daily_Activity_' . $tanggal . '.pdf');
