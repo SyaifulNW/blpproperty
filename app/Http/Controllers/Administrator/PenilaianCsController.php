@@ -33,7 +33,7 @@ class PenilaianCsController extends Controller
              $daftarCs = User::where('name', '!=', 'Fitra Jaya Saleh')->orderBy('name')->get();
         }
 
-        return $this->getPenilaianData($request, $daftarCs, 'administrator.penilaian-cs.index');
+        return $this->getPenilaianData($request, $daftarCs, 'admin.penilaian-cs.index');
     }
 
     public function managerIndex(Request $request)
@@ -52,14 +52,14 @@ class PenilaianCsController extends Controller
                              ->whereNotIn('name', ['Linda', 'Yasmin'])
                              ->orderBy('name')
                              ->get();
-             $routeView = 'administrator.penilaian-cs.index';
-             $routeView = 'administrator.penilaian-cs.index';
+             $routeView = 'admin.penilaian-cs.index';
+             $routeView = 'admin.penilaian-cs.index';
         } elseif ($userName === 'Yasmin') {
              $daftarCs = User::where('name', '!=', 'Fitra Jaya Saleh')->orderBy('name')->get();
-             $routeView = 'administrator.penilaian-cs.index';
+             $routeView = 'admin.penilaian-cs.index';
         } elseif ($userName === 'Agus Setyo') {
              $daftarCs = User::where('name', 'Agus Setyo')->get();
-             $routeView = 'administrator.penilaian-cs.index';
+             $routeView = 'admin.penilaian-cs.index';
         } else {
             // Default Fallback (jika ada manager lain) -> Filter Tursia & Latifah
             $daftarCs = User::whereIn('name', ['Tursia', 'Latifah'])->orderBy('name')->get();
